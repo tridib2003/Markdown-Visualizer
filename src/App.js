@@ -1,25 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+/* 
+  ~ author: @tridib_2003 
+*/
+import ReactMarkdown from 'react-markdown';
+import react, { useState } from 'react';
+import SyntaxHighlighter from 'react-syntax-highlighter';
+import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+export default function App() {
+
+    const [input, setInput] = useState();
+
+    return (
+
+        <div className="App">
+
+            <textarea className="textarea" value={input} onChange={
+                (e) => setInput(e.target.value)
+            }/>
+
+            <ReactMarkdown source={input} className="markdown" renderers={{
+                code: Component,
+            }} />
+
+        </div>
+
+    );
 }
 
-export default App;
+
+const Component = ({value, language}) => {
+  return (
+    <SyntaxHighlighter language={language ?? null} style={docco}>
+      {value ?? ''}
+    </SyntaxHighlighter>
+  );
+};
